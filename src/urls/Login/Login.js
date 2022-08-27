@@ -24,6 +24,7 @@ const Login = ({ user, setUser }) => {
 
   const [modalShow, setModalShow] = useState(false)
   const [alertShow, setAlertShow] = useState(false)
+  const [creationAlertShow, setCreationAlertShow] = useState(false)
 
   const handleCreateAccount = () => {
 
@@ -34,7 +35,10 @@ const Login = ({ user, setUser }) => {
       username: regUsername,
       password: regPassword
     })
-      .then(res => console.log("Successful post! ", res))
+      .then(res => {
+        console.log("Successful post! ", res)
+        setCreationAlertShow(true)
+      })
       .catch(err => console.error(err))
 
     console.log("it's finished handling")
@@ -93,6 +97,12 @@ const Login = ({ user, setUser }) => {
         </Modal.Header>
 
         <Modal.Body>
+          {
+            creationAlertShow &&
+            <Alert variant='success' dismissible onClose={() => setCreationAlertShow(false)}>
+              Account has been created!
+            </Alert>
+          }
           <Form>
             <Form.Group>
               <Form.Control type='email' placeholder='email@example.com' onChange={event => setRegEmail(event.target.value)} />

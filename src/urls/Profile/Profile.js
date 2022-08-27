@@ -8,14 +8,12 @@ import Row from 'react-bootstrap/esm/Row'
 
 const Profile = ({ user, setUser }) => {
 
-
-
   return (
     <Container>
       <Card className='m-5 text-center'>
         <Card.Header>
           <Row className='justify-content-center'>
-            <Card.Img src='https://upload.wikimedia.org/wikipedia/commons/8/86/Triforce.svg' className='mb-3' style={{ width: "100px" }} />
+            <Card.Img src={user.pfp} className='mb-3' style={{ width: "100px" }} />
           </Row>
           <Row>
             <Card.Text>{user.username}</Card.Text>
