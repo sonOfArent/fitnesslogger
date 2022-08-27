@@ -12,10 +12,9 @@ import Button from 'react-bootstrap/Button'
 // mine
 import StatCard from '../../components/StatCard/StatCard'
 
-const Home = () => {
+const Home = ({ user }) => {
 
   const navigate = useNavigate()
-  const [user, setUser] = useState({})
 
   const USER = {
     name: "Exodus",
@@ -26,7 +25,7 @@ const Home = () => {
   return (
     <>
       <Container className='px-5 pt-5 text-center'>
-        <h3 className='mb-5'>Welcome{user.name && `, ${user.name}`}!</h3>
+        <h3 className='mb-5'>Welcome, {user.username}!</h3>
         <Row>
           <Col>
             <StatCard stat={user.sessionsToday}>

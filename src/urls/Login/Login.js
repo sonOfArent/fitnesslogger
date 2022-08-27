@@ -47,7 +47,8 @@ const Login = ({ user, setUser }) => {
       password: password
     })
       .then(res => {
-        setUser(res)
+        console.log(res.data)
+        setUser(res.data)
       })
       .catch(err => {
         console.log(err.message)

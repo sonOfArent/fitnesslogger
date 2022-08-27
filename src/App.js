@@ -21,7 +21,6 @@ function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    setUser(fetchFromLocalStorage())
   }, [])
 
   const fetchFromLocalStorage = () => {
@@ -57,7 +56,7 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Home user={user} />} />
-        <Route path='/profile' element={<Profile user={user} />} />
+        <Route path='/profile' element={<Profile user={user} setUser={setUser} />} />
       </Routes>
     </div>
   );
