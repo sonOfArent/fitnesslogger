@@ -8,6 +8,14 @@ import Row from 'react-bootstrap/esm/Row'
 
 const Profile = ({ user, setUser }) => {
 
+  // #TODO: Next, work on Session and Exercise components and models. Local storage of last signed in might be a good idea, too, for convenience purposes
+
+  const handleSignout = () => {
+    localStorage.removeItem('username')
+    localStorage.removeItem('password')
+    setUser(null)
+  }
+
   return (
     <Container>
       <Card className='m-5 text-center'>
@@ -22,7 +30,7 @@ const Profile = ({ user, setUser }) => {
           </Row>
         </Card.Header>
       </Card>
-      <Button onClick={() => setUser(null)}>Log Out</Button>
+      <Button onClick={handleSignout}>Log Out</Button>
     </Container>
   )
 }

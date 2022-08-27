@@ -13,7 +13,7 @@ import Alert from 'react-bootstrap/Alert'
 
 const LOGINURL = "http://localhost:5000/login"
 
-const Login = ({ user, setUser }) => {
+const Login = ({ user, setUser, setLoginModalShow }) => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -46,6 +46,7 @@ const Login = ({ user, setUser }) => {
 
   const handleLogin = () => {
     console.log("Logging in...")
+    setLoginModalShow(true)
     axios.post(LOGINURL, {
       username: username,
       password: password
@@ -53,10 +54,14 @@ const Login = ({ user, setUser }) => {
       .then(res => {
         console.log(res.data)
         setUser(res.data)
+        localStorage.setItem('username', res.data.username)
+        localStorage.setItem('password', res.data.password)
+        console.log("User locally saved.")
       })
       .catch(err => {
         console.log(err.message)
         setAlertShow(true)
+        setLoginModalShow(false)
       })
   }
 

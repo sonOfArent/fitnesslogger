@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './App.css';
 
@@ -6,6 +6,7 @@ import './App.css';
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
+import Modal from 'react-bootstrap/Modal'
 
 // router-dom
 import { Route, Routes, Link } from 'react-router-dom'
@@ -15,21 +16,46 @@ import Home from './urls/Home/Home';
 import Profile from './urls/Profile/Profile'
 import Login from './urls/Login/Login';
 
+const LOGINURL = "http://localhost:5000/login"
 
 function App() {
 
   const [user, setUser] = useState(null)
+  const [loginModalShow, setLoginModalShow] = useState(false)
 
   useEffect(() => {
+    fetchFromLocalStorage()
   }, [])
 
-  const fetchFromLocalStorage = () => {
-    return null
+  const fetchFromLocalStorage = async () => {
+    const username = localStorage.getItem('username')
+    const password = localStorage.getItem('password')
+
+    if (username !== null && password !== null)
+      setLoginModalShow(true)
+
+    if (username !== null && password !== null) {
+      await axios.post(LOGINURL, {
+        username: username,
+        password: password
+      })
+        .then(res => {
+          setUser(res.data)
+          setLoginModalShow(false)
+        })
+
+    }
+
   }
 
   if (!user) {
     return (
-      <Login user={user} setUser={setUser} />
+      <>
+        <Modal show={loginModalShow} centered>
+          <Modal.Header className='lead'>Signing in...</Modal.Header>
+        </Modal>
+        <Login user={user} setUser={setUser} setLoginModalShow={setLoginModalShow} />
+      </>
     )
   }
 
