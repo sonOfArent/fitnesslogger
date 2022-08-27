@@ -9,8 +9,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Modal from 'react-bootstrap/Modal'
+import Alert from 'react-bootstrap/Alert'
 
-const NEWUSERURL = "http://localhost:5000/login"
+const LOGINURL = "http://localhost:5000/login"
 
 const Login = ({ user, setUser }) => {
 
@@ -22,20 +23,36 @@ const Login = ({ user, setUser }) => {
   const [regPassword, setRegPassword] = useState('')
 
   const [modalShow, setModalShow] = useState(false)
+  const [alertShow, setAlertShow] = useState(false)
 
   const handleCreateAccount = () => {
 
     console.log("It's being handled.")
 
-    axios.post(NEWUSERURL, {
-      regEmail: regEmail,
-      regUsername: regUsername,
-      regPassword: regPassword
+    axios.post(`${LOGINURL}/new`, {
+      email: regEmail,
+      username: regUsername,
+      password: regPassword
     })
-      .then((res) => console.log("Successful post! ", res))
+      .then(res => console.log("Successful post! ", res))
       .catch(err => console.error(err))
 
     console.log("it's finished handling")
+  }
+
+  const handleLogin = () => {
+    console.log("Logging in...")
+    axios.post(LOGINURL, {
+      username: username,
+      password: password
+    })
+      .then(res => {
+        setUser(res)
+      })
+      .catch(err => {
+        console.log(err.message)
+        setAlertShow(true)
+      })
   }
 
   return (
@@ -47,6 +64,11 @@ const Login = ({ user, setUser }) => {
               Login to use Fitness Tracker
             </h2>
           </Row>
+          {alertShow &&
+            <Alert variant='danger' onClose={() => setAlertShow(false)} dismissible>
+              The username or password were incorrect.
+            </Alert>
+          }
           <Row>
             <Form.Group>
               <Form.Control type='text' placeholder='Username' onChange={event => setUsername(event.target.value)} />
@@ -60,7 +82,7 @@ const Login = ({ user, setUser }) => {
               No account? <Button size='sm' onClick={() => setModalShow(true)}>Create one here!</Button>
             </Form.Text>
           </Row>
-          <Button size='lg' variant='success' className='my-3' onClick={() => console.log(username)}>Log In</Button>
+          <Button size='lg' variant='success' className='my-3' onClick={handleLogin}>Log In</Button>
         </Form>
       </Container>
 
