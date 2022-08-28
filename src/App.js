@@ -10,11 +10,14 @@ import Modal from 'react-bootstrap/Modal'
 
 // router-dom
 import { Route, Routes, Link } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
 // urls
 import Home from './urls/Home/Home';
 import Profile from './urls/Profile/Profile'
 import Login from './urls/Login/Login';
+import Sessions from './urls/Sessions/Sessions';
+import CreateSession from './urls/Sessions/CreateSession/CreateSession';
 
 const LOGINURL = "http://localhost:5000/login"
 
@@ -45,7 +48,6 @@ function App() {
         })
 
     }
-
   }
 
   if (!user) {
@@ -67,15 +69,15 @@ function App() {
             Fitness Logger
           </Navbar.Brand>
           <Nav>
-            <Navbar.Text className='nav-link'>
-              <Link to={'/'}>Home</Link>
-            </Navbar.Text>
-            <Navbar.Text className='nav-link'>
-              <Link to={'/sessions'}>Sessions</Link>
-            </Navbar.Text>
-            <Navbar.Text className='nav-link'>
-              <Link to={'/profile'}>Profile</Link>
-            </Navbar.Text>
+            <LinkContainer to={'/'}>
+              <Nav.Link>Home</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to={'/sessions'}>
+              <Nav.Link>Sessions</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to={'/profile'}>
+              <Nav.Link>Profile</Nav.Link>
+            </LinkContainer>
           </Nav>
         </Container>
       </Navbar>
@@ -83,8 +85,10 @@ function App() {
       <Routes>
         <Route path='/' element={<Home user={user} />} />
         <Route path='/profile' element={<Profile user={user} setUser={setUser} />} />
+        <Route path='/sessions' element={<Sessions />} user={user} />
+        <Route path='/sessions/create' element={<CreateSession user={user} />} />
       </Routes>
-    </div>
+    </div >
   );
 }
 
