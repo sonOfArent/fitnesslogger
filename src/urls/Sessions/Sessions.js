@@ -1,39 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Container, Row, Col, Dropdown, DropdownButton, Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+
 
 import './Sessions.css'
-
-import Container from 'react-bootstrap/esm/Container'
-import Row from 'react-bootstrap/esm/Row'
-import Col from 'react-bootstrap/Col'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import Modal from 'react-bootstrap/Modal'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-
 import Session from './Session/Session'
-import axios from 'axios'
-import FloatingLabel from 'react-bootstrap/esm/FloatingLabel'
 
-const Sessions = () => {
+import axios from 'axios'
+
+const Sessions = ({ user }) => {
 
   const [filter, setFilter] = useState(null)
   const [filterTitle, setFilterTitle] = useState("Filter")
 
   const handleSelect = event => {
+    setFilter(event)
     const capitalizedEvent = event[0].toUpperCase() + event.substring(1)
     setFilterTitle(capitalizedEvent)
 
     // #TODO: Currently working on filtering sessions.
-    axios.get(`${URL}/sessions`, {
+    // My idea is to send the user ID over, find the sessions associated with the ID, and then find the ones that match the filter date-wise.
+    axios.post(`${URL}/sessions`, {
+      _id: user._id,
       filter: filter
     })
       .then()
-      .catch()
-  }
-
-  const handleNavigate = () => {
+      .catch(err => console.log(err))
   }
 
   return (
@@ -45,7 +37,9 @@ const Sessions = () => {
         <hr />
         <Row>
           <Col>
-            <Button>Create Session</Button>
+            <LinkContainer to="/sessions/create">
+              <Button>Create Session</Button>
+            </LinkContainer>
           </Col>
           <Col>
             <DropdownButton

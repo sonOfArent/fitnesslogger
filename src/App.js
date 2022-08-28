@@ -85,7 +85,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home user={user} />} />
         <Route path='/profile' element={<Profile user={user} setUser={setUser} />} />
-        <Route path='/sessions' element={<Sessions />} user={user} />
+        <Route path='/sessions' element={<Sessions user={user} />} />
         <Route path='/sessions/create' element={<CreateSession user={user} />} />
       </Routes>
     </div >
